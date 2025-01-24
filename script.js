@@ -21,7 +21,9 @@ greetButton.addEventListener("click", function () {
 
         // Telegram Botuna Veri Gönder
         try {
-            telegram.sendData(JSON.stringify({ name: name })); // JSON formatında veri gönder
+            const dataToSend = JSON.stringify({ name: name }); // JSON formatına dönüştür
+            telegram.sendData(dataToSend); // JSON veriyi gönder
+            console.log("Data sent to Telegram:", dataToSend); // Gönderilen veriyi logla
         } catch (error) {
             console.error("Error sending data to Telegram:", error);
         }
