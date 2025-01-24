@@ -5,7 +5,7 @@
 
 
 // Telegram Web App Nesnesi
-
+let greetButton = document.getElementById("greetButton");
 // Butona Tıklama Olayı
 greetButton.addEventListener("click", function () {
 
@@ -19,7 +19,7 @@ greetButton.addEventListener("click", function () {
 
 
     const telegram = window.Telegram.WebApp;
-    let greetButton = document.getElementById("greetButton");
+
     let greetingMessage = document.getElementById("greetMessage");
 
 
