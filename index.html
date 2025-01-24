@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Mini App</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://telegram.org/js/telegram-web-app.js?2"></script>bu b
-
-  
+    <!-- Telegram Web App API -->
+    <script src="https://telegram.org/js/telegram-web-app.js?2"></script>
 </head>
 
 <body>
@@ -20,51 +19,54 @@
         <p id="greetingMessage"></p>
     </div>
 
+    <script>
+        // Telegram Web App API Kontrolü
+        if (!window.Telegram || !window.Telegram.WebApp) {
+            alert("Telegram WebApp API is not available. Please open this Mini App in Telegram.");
+            console.error("Telegram WebApp API is not available. Please open this Mini App in Telegram.");
+        } else {
+            console.log("Telegram WebApp API initialized successfully!");
+            const telegram = window.Telegram.WebApp;
 
-     <script>
+            // Buton ve Mesaj Elemanları
+            let greetButton = document.getElementById("greetButton");
+            let greetingMessage = document.getElementById("greetingMessage");
 
+            // Butona Tıklama Olayı
+            greetButton.addEventListener("click", function () {
+                // Kullanıcının Girdiği İsmi Al
+                let name = document.getElementById("nameInput").value.trim();
 
-         // Telegram Web App API Kontrolü
-if (!window.Telegram || !window.Telegram.WebApp) {
-    console.error("Telegram WebApp API is not available. Please open this Mini App in Telegram.");
-} else {
-    console.log("Telegram WebApp API initialized successfully!");
-}
+                if (name) {
+                    // Mesajı Göster
+                    greetingMessage.textContent = `Hello, ${name}! Welcome to Telegram Mini App!`;
 
-// Telegram Web App Nesnesi
-const telegram = window.Telegram.WebApp;
-let greetButton = document.getElementById("greetButton");
-let greetingMessage = document.getElementById("greetMessage");
+                    // Telegram Botuna Veri Gönder
+                    try {
+                        const dataToSend = JSON.stringify({ name: name }); // JSON formatına dönüştür
+                        telegram.sendData(dataToSend); // JSON veriyi gönder
+                        console.log("Data sent to Telegram:", dataToSend); // Gönderilen veriyi logla
+                    } catch (error) {
+                        console.error("Error sending data to Telegram:", error);
+                        alert("An error occurred while sending data to Telegram.");
+                    }
 
-// Butona Tıklama Olayı
-greetButton.addEventListener("click", function () {
-    // Kullanıcının Girdiği İsmi Al
-    let name = document.getElementById("nameInput").value.trim();
+                    // (Opsiyonel) Telegram Mini App'i Kapat
+                    setTimeout(() => {
+                        telegram.close();
+                    }, 5000); // 5 saniye sonra Mini App kapanır
+                } else {
+                    // Eğer İsim Girilmemişse Uyarı Göster
+                    greetingMessage.textContent = "Please enter your name!";
+                }
+            });
 
-    if (name) {
-        // Mesajı Göster
-        greetingMessage.textContent = `Hello, ${name}! Welcome to Telegram Mini App!`;
-
-        // Telegram Botuna Veri Gönder
-        try {
-            const dataToSend = JSON.stringify({ name: name }); // JSON formatına dönüştür
-            telegram.sendData(dataToSend); // JSON veriyi gönder
-            console.log("Data sent to Telegram:", dataToSend); // Gönderilen veriyi logla
-        } catch (error) {
-            console.error("Error sending data to Telegram:", error);
+            // Telegram Main Button Olayını İşleme
+            telegram.onEvent("mainButtonClicked", () => {
+                console.log("Main button clicked!");
+            });
         }
-
-        // (Opsiyonel) Telegram Mini App'i Kapat
-        // setTimeout(() => {
-        //     telegram.close();
-        // }, 2000);
-    } else {
-        // Eğer İsim Girilmemişse Uyarı Göster
-        greetingMessage.textContent = "Please enter your name!";
-    }
-});
-
-     </script>
+    </script>
 </body>
 
 </html>
