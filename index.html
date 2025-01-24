@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Mini App</title>
     <link rel="stylesheet" href="styles.css">
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: #fff;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        input {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        #greetingMessage {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -18,6 +69,36 @@
         <p id="greetingMessage"></p>
     </div>
     <script src="script.js"></script>
+
+
+    <script>
+        // Initialize Telegram Web App
+        const telegram = window.Telegram.WebApp;
+
+        // Set up a click event listener for the button
+        document.getElementById("greetButton").addEventListener("click", function () {
+            // Get the user's input from the text field
+            const name = document.getElementById("nameInput").value.trim();
+
+            // Check if a name was entered
+            if (name) {
+                // Display a personalized greeting message
+                document.getElementById("greetingMessage").textContent = `Hello, ${name}! Welcome to Telegram Mini App!`;
+
+                // Send data back to the bot (optional)
+                telegram.sendData(JSON.stringify({ name: name }));
+
+                // Close the app (optional)
+                setTimeout(() => {
+                    telegram.close();
+                }, 2000);
+            } else {
+                // Show an error if the name field is empty
+                document.getElementById("greetingMessage").textContent = "Please enter your name!";
+            }
+        });
+
+    </script>
 </body>
 
 </html>
